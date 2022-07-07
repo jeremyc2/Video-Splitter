@@ -2,9 +2,11 @@ import React, { useState, useRef } from 'react';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 import { getType } from 'mime'
 import './App.css';
+import './loader.css';
 
 function App() {
   const [videoData, setVideoData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const minuteRef = useRef();
   const secondRef = useRef();
 
@@ -22,6 +24,9 @@ function App() {
 
     if(isNaN(minutes) || isNaN(seconds)) return;
 
+    setVideoData([]);
+    setIsLoading(true);
+
     const segmentTime = minutes * 60 + seconds;
 
     const { name } = files[0];
@@ -33,7 +38,6 @@ function App() {
     await ffmpeg.run('-i', name, '-f', 'segment', '-segment_time', segmentTime.toString(), '-vcodec', 'copy', '-reset_timestamps', '1', `output_video%d${fileExtension}`);
     const wasmFiles = await ffmpeg.FS('readdir', '.');
 
-    setVideoData([]);
     wasmFiles
       .filter(file => file.startsWith('output_video'))
       .forEach(file => {
@@ -43,9 +47,16 @@ function App() {
 
         setVideoData((videoData) => [...videoData, objectUrl]);
       });
+
+      setIsLoading(false);
   }
   return (
     <div className='App'>
+      {isLoading && <div className='absolute inset-0 bg-black bg-opacity-60'>
+        <div className='absolute p-4 -translate-x-1/2 -translate-y-1/2 bg-black rounded-md top-1/2 left-1/2'>
+          <span className="loader">Load&nbsp;ng</span>
+        </div>
+      </div>}
       <div className='watermark'>VS</div>
       <h1 className='mt-10 font-extrabold tracking-tight text-center text-7xl lg:text-9xl'>Video Splitter</h1>
       <form className='p-5 mx-auto mt-10 text-xl bg-gray-900 border border-black rounded-md w-fit'>
