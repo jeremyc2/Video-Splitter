@@ -35,17 +35,17 @@ function App() {
 
     await ffmpeg.load();
     ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
-    await ffmpeg.run('-i', name, '-f', 'segment', '-segment_time', segmentTime.toString(), '-vcodec', 'copy', '-reset_timestamps', '1', `output_video%d${fileExtension}`);
+    await ffmpeg.run('-i', name, '-f', 'segment', '-segment_time', segmentTime.toString(), '-vcodec', 'copy', '-reset_timestamps', '1', `${name} (%d)${fileExtension}`);
     const wasmFiles = await ffmpeg.FS('readdir', '.');
 
     wasmFiles
-      .filter(file => file.startsWith('output_video'))
+      .filter(file => file.startsWith(`${name} `))
       .forEach(file => {
         const data = ffmpeg.FS('readFile', file);
         const blob = new Blob([data.buffer], { type: mimeType });
         const objectUrl = URL.createObjectURL(blob);
 
-        setVideoData((videoData) => [...videoData, objectUrl]);
+        setVideoData((videoData) => [...videoData, { name: file, objectUrl } ]);
       });
 
       setIsLoading(false);
@@ -53,7 +53,7 @@ function App() {
   return (
     <div className='App'>
       {isLoading && <div className='absolute inset-0 bg-black bg-opacity-60'>
-        <div className='absolute p-4 -translate-x-1/2 -translate-y-1/2 bg-black rounded-md top-1/2 left-1/2'>
+        <div className='absolute p-4 -translate-x-1/2 -translate-y-1/2 bg-black rounded-md shadow-lg shadow-black top-1/2 left-1/2'>
           <span className="loader">Load&nbsp;ng</span>
         </div>
       </div>}
@@ -72,7 +72,7 @@ function App() {
           />
         </div>
         <label tabIndex='0' role='button' aria-disabled='false' 
-          className='block p-2 mx-auto mt-3 font-medium bg-blue-500 rounded-md shadow-sm w-fit hover:bg-blue-400'
+          className='block p-2 mx-auto mt-3 font-medium bg-blue-500 rounded-md shadow-md shadow-black w-fit hover:bg-blue-400'
         >
           <span>
             Upload Video
@@ -82,8 +82,8 @@ function App() {
       </form>
       <div className='flex flex-wrap max-w-2xl gap-3 p-4 pb-16 mx-auto bg-gray-900 border border-black rounded-md empty:hidden mt-7'>
         {videoData.map((data, index) => {
-          return <a key={`v-${index}`} download={`video${index}`}  href={data} 
-            className='py-2 font-medium text-center bg-red-500 rounded-md shadow-sm px-7 hover:bg-red-400'
+          return <a key={`v-${index}`} download={data.name}  href={data.objectUrl} 
+            className='py-2 font-medium text-center bg-red-500 rounded-md shadow-md shadow-black px-7 hover:bg-red-400'
           >Part {index + 1}</a>
         })}
       </div>
