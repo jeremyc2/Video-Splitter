@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Kolker+Brush&display=swap');
+
+body {
+  @apply p-4 bg-slate-800 text-gray-50;
+}
+
+.watermark {
+  @apply 
+  fixed 
+  font-black 
+  leading-none 
+  -z-10
+  opacity-10 
+  rotate-[35deg] 
+  left-[-12%] 
+  bottom-[-21%] 
+  translate-x-[12%];
+  font-size: clamp(28rem, 80vw, 40rem);
+  font-family: 'Kolker Brush', cursive;
+}
+
+* {
+  white-space: nowrap;
+}
+
+h1 {
+  white-space: initial;
+}
