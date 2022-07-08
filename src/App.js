@@ -30,16 +30,18 @@ function App() {
     const segmentTime = minutes * 60 + seconds;
 
     const { name } = files[0];
-    const fileExtension = name.substring(name.lastIndexOf('.'));
+    const fileExtensionIndex = name.lastIndexOf('.');
+    const nameWithoutExtension = name.substring(0, fileExtensionIndex);
+    const fileExtension = name.substring(fileExtensionIndex);
     const mimeType = getType(name);
 
     await ffmpeg.load();
     ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
-    await ffmpeg.run('-i', name, '-f', 'segment', '-segment_time', segmentTime.toString(), '-vcodec', 'copy', '-reset_timestamps', '1', `${name} (%d)${fileExtension}`);
+    await ffmpeg.run('-i', name, '-f', 'segment', '-segment_time', segmentTime.toString(), '-segment_start_number', '1', '-vcodec', 'copy', '-reset_timestamps', '1', `${nameWithoutExtension} Part %d${fileExtension}`);
     const wasmFiles = await ffmpeg.FS('readdir', '.');
 
     wasmFiles
-      .filter(file => file.startsWith(`${name} `))
+      .filter(file => file.startsWith(`${nameWithoutExtension} `))
       .forEach(file => {
         const data = ffmpeg.FS('readFile', file);
         const blob = new Blob([data.buffer], { type: mimeType });
