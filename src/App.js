@@ -72,7 +72,7 @@ function App() {
           />
         </div>
         <label tabIndex='0' role='button' aria-disabled='false' 
-          className='block p-2 mx-auto mt-3 font-medium bg-blue-500 rounded-md shadow-md shadow-black w-fit hover:bg-blue-400'
+          className='block w-full p-2 mx-auto mt-3 font-medium text-center bg-blue-500 rounded-md shadow-md shadow-black hover:bg-blue-400'
         >
           <span>
             Upload Video

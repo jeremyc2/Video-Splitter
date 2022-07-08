@@ -1,11 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 .loader {
   all: initial;
+  font-family: 'Roboto', Helvetica, sans-serif;
   user-select: none;
   color: #FFF;
   position: relative;
   display: inline-block;
-  margin-top: 40px;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 48px;
   letter-spacing: 4px;
   box-sizing: border-box;
@@ -13,7 +14,7 @@
 .loader::before {
   content: '';  
   position: absolute;
-  right: 70px;
+  right: 68px;
   bottom: 10px;
   height: 28px;
   width: 5.15px;
