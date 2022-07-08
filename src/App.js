@@ -52,8 +52,8 @@ function App() {
   }
   return (
     <div className='App'>
-      {isLoading && <div className='absolute inset-0 bg-black bg-opacity-60'>
-        <div className='absolute p-4 -translate-x-1/2 -translate-y-1/2 bg-black rounded-md shadow-lg shadow-black top-1/2 left-1/2'>
+      {!isLoading && <div className='absolute inset-0 bg-black bg-opacity-60'>
+        <div className='absolute -translate-x-1/2 -translate-y-1/2 rounded-md shadow-lg shadow-black top-1/2 left-1/2'>
           <span className="loader">Load&nbsp;ng</span>
         </div>
       </div>}

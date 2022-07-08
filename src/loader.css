@@ -1,6 +1,8 @@
 .loader {
   all: initial;
+  user-select: none;
   color: #FFF;
+  position: relative;
   display: inline-block;
   margin-top: 40px;
   font-family: Arial, Helvetica, sans-serif;
@@ -11,8 +13,8 @@
 .loader::before {
   content: '';  
   position: absolute;
-  right: calc(70px + 1rem);
-  bottom: calc(10px + 1rem);
+  right: 70px;
+  bottom: 10px;
   height: 28px;
   width: 5.15px;
   background: currentColor;
@@ -24,8 +26,8 @@
   width: 10px;
   height: 10px;
   position: absolute;
-  left: calc(125px + 1rem);
-  top: calc(2px + 3rem);
+  left: 125px;
+  top: 2px;
   border-radius: 50%;
   background: red;
   box-sizing: border-box;
