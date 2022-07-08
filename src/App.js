@@ -84,7 +84,9 @@ function App() {
       </form>
       <div className='max-w-2xl p-4 pb-16 mx-auto bg-gray-900 border border-black rounded-md empty:hidden mt-7'>
         {videoData.name && <>
-          <h2 className='max-w-[20ch] overflow-hidden text-ellipsis text-xl font-bold mx-auto'>{videoData.name}</h2>
+          <summary title={videoData.name}>
+            <h2 className='max-w-[20ch] overflow-hidden text-ellipsis text-xl font-bold mx-auto'>{videoData.name}</h2>
+          </summary>
           <div className='flex flex-wrap gap-3 mt-3'>
             {videoData.splitFiles?.map((data, index) => {
               return <a key={`v-${index}`} download={data.name}  href={data.objectUrl} 
