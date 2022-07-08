@@ -5,8 +5,7 @@ import './App.css';
 import './loader.css';
 
 function App() {
-  const [videoData, setVideoData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [videoData, setVideoData] = useState({ isLoading: false });
   const minuteRef = useRef();
   const secondRef = useRef();
 
@@ -24,8 +23,7 @@ function App() {
 
     if(isNaN(minutes) || isNaN(seconds)) return;
 
-    setVideoData([]);
-    setIsLoading(true);
+    setVideoData({ isLoading: true });
 
     const segmentTime = minutes * 60 + seconds;
 
@@ -42,21 +40,21 @@ function App() {
       `${nameWithoutExtension} Part %d${fileExtension}`);
     const wasmFiles = await ffmpeg.FS('readdir', '.');
 
-    wasmFiles
-      .filter(file => file.startsWith(`${nameWithoutExtension} `))
-      .forEach(file => {
-        const data = ffmpeg.FS('readFile', file);
+    const splitFiles = wasmFiles
+      .filter(name => name.startsWith(`${nameWithoutExtension} `))
+      .map(name => {
+        const data = ffmpeg.FS('readFile', name);
         const blob = new Blob([data.buffer], { type: mimeType });
         const objectUrl = URL.createObjectURL(blob);
 
-        setVideoData((videoData) => [...videoData, { name: file, objectUrl } ]);
+        return { name, objectUrl };
       });
 
-      setIsLoading(false);
+    setVideoData({ isLoading: false, name, splitFiles })
   }
   return (
     <div className='App'>
-      {isLoading && <div className='absolute inset-0 bg-black bg-opacity-80'>
+      {videoData.isLoading && <div className='absolute inset-0 bg-black bg-opacity-80'>
         <div className='absolute -translate-x-1/2 -translate-y-1/2 rounded-md shadow-lg shadow-black top-1/2 left-1/2'>
           <span className="loader">Load&nbsp;ng</span>
         </div>
@@ -84,12 +82,17 @@ function App() {
           </span>
         </label>
       </form>
-      <div className='flex flex-wrap max-w-2xl gap-3 p-4 pb-16 mx-auto bg-gray-900 border border-black rounded-md empty:hidden mt-7'>
-        {videoData.map((data, index) => {
-          return <a key={`v-${index}`} download={data.name}  href={data.objectUrl} 
-            className='py-2 font-medium text-center bg-red-500 rounded-md shadow-md shadow-black px-7 hover:bg-red-400'
-          >Part {index + 1}</a>
-        })}
+      <div className='max-w-2xl p-4 pb-16 mx-auto bg-gray-900 border border-black rounded-md empty:hidden mt-7'>
+        {videoData.name && <>
+          <h2 className='max-w-[20ch] overflow-hidden text-ellipsis text-xl font-bold mx-auto'>{videoData.name}</h2>
+          <div className='flex flex-wrap gap-3 mt-3'>
+            {videoData.splitFiles?.map((data, index) => {
+              return <a key={`v-${index}`} download={data.name}  href={data.objectUrl} 
+                className='py-2 font-medium text-center bg-red-500 rounded-md shadow-md shadow-black px-7 hover:bg-red-400'
+              >Part {index + 1}</a>
+            })}
+          </div>
+        </>}
       </div>
     </div>
   );
