@@ -62,7 +62,7 @@ function App() {
       <div className='watermark'>VS</div>
       <h1 className='mt-10 font-extrabold tracking-tight text-center text-7xl lg:text-9xl'>Video Splitter</h1>
       <form className='p-5 mx-auto mt-10 text-xl bg-gray-900 border border-black rounded-md w-fit'>
-        <div className='flex gap-2 mx-auto mb-0 w-fit'>
+        <div className='flex gap-2 justify-center'>
           <input ref={minuteRef}
             className='p-2 leading-tight text-center text-gray-700 bg-gray-200 border rounded selection:bg-slate-400 border-slate-400 focus:outline-none focus:bg-white'
             type="text" defaultValue='01' maxLength={2} size={2} pattern="\d*" onFocus={selectInput} autoFocus
@@ -74,7 +74,7 @@ function App() {
           />
         </div>
         <label tabIndex='0' role='button' aria-disabled='false' 
-          className='block w-full p-2 mx-auto mt-3 font-medium text-center bg-blue-500 rounded-md shadow-md shadow-black hover:bg-blue-400'
+          className='block p-2 mt-3 font-medium text-center bg-blue-500 rounded-md shadow-md shadow-black hover:bg-blue-400'
         >
           <span>
             Upload Video
