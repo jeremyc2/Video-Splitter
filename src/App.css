@@ -23,6 +23,12 @@ body {
   font-family: 'Kolker Brush', cursive;
 }
 
+.results-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(10rem, 100%), 1fr));
+}
+
 summary::marker {
   color: transparent;
 }
