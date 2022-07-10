@@ -76,7 +76,7 @@ function App() {
             className='p-2 leading-tight text-center text-gray-700 bg-gray-200 border rounded selection:bg-slate-400 border-slate-400 focus:outline-none focus:bg-white'
             type="text" defaultValue='01' maxLength={2} size={2} pattern="\d*" onFocus={selectInput} autoFocus
           />
-          <span className='inline-flex h-full text-3xl font-black align-items-center'>:</span>
+          <span className='inline-flex h-full text-3xl font-black select-none align-items-center'>:</span>
           <input ref={secondRef}
             className='p-2 leading-tight text-center text-gray-700 bg-gray-200 border rounded selection:bg-slate-400 border-slate-400 focus:outline-none focus:bg-white'
             type="text" defaultValue='00' maxLength={2} size={2} pattern="\d*" onFocus={selectInput}
@@ -85,7 +85,7 @@ function App() {
         <label tabIndex='0' role='button' aria-disabled='false' 
           className='block p-2 mt-3 font-medium text-center bg-blue-500 rounded-md shadow-md shadow-black hover:bg-blue-400'
         >
-          <span>
+          <span className='select-none'>
             Upload Video
             <input type='file' onClick={(e) => e.currentTarget.value = null} onChange={splitFile} className='hidden' />
           </span>

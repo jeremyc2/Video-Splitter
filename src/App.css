@@ -17,7 +17,8 @@ body {
   opacity-10 
   rotate-[35deg] 
   left-[-12%] 
-  bottom-[-21%] 
+  bottom-[-21%]
+  select-none
   translate-x-[12%];
   font-size: clamp(28rem, 80vw, 40rem);
   font-family: 'Kolker Brush', cursive;
